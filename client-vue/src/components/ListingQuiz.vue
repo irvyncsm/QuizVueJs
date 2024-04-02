@@ -22,6 +22,9 @@ export default {
     QuizItem
   },
   methods: {
+    removeQuiz(index) {
+        this.quizs.splice(index, 1);
+    },
     removeTask(task) {
       this.$emit('remove', task);
     },
@@ -36,8 +39,8 @@ export default {
 
 <template>
   <ol>
-    <li v-for="quiz in quizs" :key="quiz.id">
-      <QuizItem :quiz="quiz" @remove="removeTask" @edit="editTask" />
+    <li v-for="(quiz, index) in quizs" :key="quiz.id">
+      <QuizItem :quiz="quiz" @remove="removeQuiz(index)" @edit="editTask" />
     </li>
   </ol>
 </template>
