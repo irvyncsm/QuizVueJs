@@ -1,5 +1,6 @@
 <script>
 import {RouterLink} from 'vue-router';
+import axios from 'axios';
 
 export default {
     props: {
@@ -7,7 +8,14 @@ export default {
     },
     methods :{
         suppr : function () {
-            this.$emit('remove', {id: this.quiz.id});
+            axios.delete(`http://localhost:5000/quiz/api/questionnaires/${this.quiz.id}`)
+                .then(response => {
+                    console.log(response);
+                    this.$emit('remove', {id: this.quiz.id});
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         edit : function () {
             this.$emit('edit', {id: this.quiz.id});
