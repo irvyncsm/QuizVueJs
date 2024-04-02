@@ -1,7 +1,8 @@
 <template>
     <div class="container">
         <span class="d-flex gap-2">
-            <button @click="this.$router.push(`/quiz/${this.questionnaire_id}`)" class="btn btn-secondary">Retour</button>
+            <button @click="this.$router.push(`/quiz/${this.questionnaire_id}`)"
+                class="btn btn-secondary">Retour</button>
             <h2>Modifier la question</h2>
         </span>
         <form>
@@ -14,8 +15,16 @@
                 <input type="text" class="form-control" id="prop1" v-model="prop1">
                 <label for="prop2">Proposition 2</label>
                 <input type="text" class="form-control" id="prop2" v-model="prop2">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="reponse1" value="1" v-model="reponse">
+                    <label class="form-check-label" for="reponse1">Proposition 1</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" id="reponse2" value="2" v-model="reponse">
+                    <label class="form-check-label" for="reponse2">Proposition 2</label>
+                </div>
             </div>
-            <div class="form-group mb-3">
+            <div class="form-group mb-3" v-if="questionType === 'unique'">
                 <label for="reponse">Réponse</label>
                 <input type="text" class="form-control" id="reponse" v-model="reponse">
             </div>
@@ -66,10 +75,38 @@ export default {
     },
     methods: {
         updateQuestion() {
-            // Code pour mettre à jour la question
+            const question = {
+                title: this.title,
+                questionType: this.questionType,
+                questionnaire_id: this.questionnaire_id,
+                reponse: this.reponse,
+                prop1: this.prop1,
+                prop2: this.prop2,
+                id: this.id
+            };
+
+            console.log(this.title, this.questionType, this.questionnaire_id, this.reponse, this.prop1, this.prop2, this.id);
+
+
+            axios.put(`http://localhost:5000/quiz/api/questions/${question.id}`, question)
+                .then(response => {
+                    if (response.status === 200) {
+                        console.log('Save Success');
+                        this.$router.push(`/quiz/${this.questionnaire_id}`);
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                });
         },
         deleteQuestion() {
             // Code pour supprimer la question
+            axios.delete(`http://127.0.0.1:5000/quiz/api/questions/${this.id}`)
+                .then(response => {
+                    if (response.status === 200) {
+                        this.$router.push(`/quiz/${this.questionnaire_id}`);
+                    }
+                });
         }
     }
 }
