@@ -5,6 +5,7 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      newQuizName: '',
       quizs: []
     }
   },
@@ -22,6 +23,17 @@ export default {
     QuizItem
   },
   methods: {
+    addQuiz() {
+      axios.post(`http://localhost:5000/quiz/api/questionnaires`, { name: this.newQuizName })
+        .then(response => {
+          console.log(response);
+          this.quizs.push(response.data);
+          this.newQuizName = '';
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     removeQuiz(index) {
         this.quizs.splice(index, 1);
     },
@@ -38,6 +50,10 @@ export default {
 </script>
 
 <template>
+  <form @submit.prevent="addQuiz">
+    <input type="text" v-model="newQuizName" placeholder="Nom du nouveau quiz">
+    <button type="submit">Ajouter</button>
+  </form>
   <ol>
     <li v-for="(quiz, index) in quizs" :key="quiz.id">
       <QuizItem :quiz="quiz" @remove="removeQuiz(index)" @edit="editTask" />
