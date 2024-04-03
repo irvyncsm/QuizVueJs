@@ -50,9 +50,11 @@ export default {
 </script>
 
 <template>
-  <form @submit.prevent="addQuiz">
-    <input type="text" v-model="newQuizName" placeholder="Nom du nouveau quiz">
-    <button type="submit">Ajouter</button>
+  <form @submit.prevent="addQuiz" class="input-group">
+    <input type="text" v-model="newQuizName" placeholder="Nom du nouveau quiz" class="form-control">
+    <div class="input-group-append">
+      <button type="submit" class="btn btn-primary">Ajouter</button>
+    </div>
   </form>
   <ol>
     <li v-for="(quiz, index) in quizs" :key="quiz.id">

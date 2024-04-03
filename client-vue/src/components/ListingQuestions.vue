@@ -3,6 +3,7 @@
         <div class="d-flex justify-content-between align-items-center my-4">
             <button @click="this.$router.push('/')" class="btn btn-secondary">Retour</button>
             <h2>{{ nomQuestionnaire }}</h2>
+            <router-link :to="`/ajouterQuestion/${this.id}`" class="btn btn-primary">Ajouter une question</router-link>
         </div>
         <ul class="list-group">
             <router-link v-for="question in questions" :key="question.id" :to="`/question/${question.id}`"
@@ -23,7 +24,7 @@ export default {
         return {
             questions: [],
             nomQuestionnaire: null,
-            id: null
+            id: 0
         }
     },
     mounted() {
