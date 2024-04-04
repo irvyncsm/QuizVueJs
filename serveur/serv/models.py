@@ -101,6 +101,7 @@ class Question(db.Model):
         if q is None:
             abort(404)
         type = json['questionType']
+        q.title = json['title']
         if type == q.questionType:
             match type:
                 case "unique":

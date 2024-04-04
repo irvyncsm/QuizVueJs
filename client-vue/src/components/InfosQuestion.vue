@@ -100,7 +100,6 @@ export default {
                 });
         },
         deleteQuestion() {
-            // Code pour supprimer la question
             axios.delete(`http://127.0.0.1:5000/quiz/api/questions/${this.id}`)
                 .then(response => {
                     if (response.status === 200) {
